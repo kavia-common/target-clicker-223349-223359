@@ -7,6 +7,12 @@ Base URL:
 - Docs: /docs (redirects to Swagger UI)
 - OpenAPI JSON: /api-docs
 
+Runtime configuration:
+- Default port is set via application.properties: server.port=3001, server.address=0.0.0.0
+- You can override at runtime:
+  - ./gradlew bootRun -Dspring-boot.run.arguments=--server.port=3001
+  - Or environment: SERVER_PORT=3001 ./gradlew bootRun
+
 ## Endpoints
 
 - POST /api/scores
