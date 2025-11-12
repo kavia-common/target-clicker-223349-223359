@@ -38,6 +38,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	// Provide Jakarta Bean Validation (Hibernate Validator + Jakarta EL)
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.h2database:h2'
@@ -51,4 +53,9 @@ checkstyle {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+// Explicitly configure the main application class for bootJar task resolution
+springBoot {
+    mainClass = 'com.example.backend.BackendApplication'
 }
