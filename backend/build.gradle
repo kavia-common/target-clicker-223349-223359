@@ -1,5 +1,6 @@
 plugins {
 	id 'java'
+	id 'checkstyle'
 	id 'org.springframework.boot' version '3.4.8'
 	id 'io.spring.dependency-management' version '1.1.7'
 }
@@ -17,6 +18,22 @@ repositories {
 	mavenCentral()
 }
 
+checkstyle {
+	// Use a widely compatible Checkstyle version
+	toolVersion = '10.17.0'
+	// Do not fail the build on style violations for now to keep CI moving
+	ignoreFailures = true
+	// Use the default Sun checks if no custom config provided
+	// A custom config will be supplied below
+}
+
+tasks.withType(Checkstyle).configureEach {
+	reports {
+		xml.required = true
+		html.required = true
+	}
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -26,6 +43,10 @@ dependencies {
 	runtimeOnly 'com.h2database:h2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+checkstyle {
+    configFile = file("$projectDir/config/checkstyle/checkstyle.xml")
 }
 
 tasks.named('test') {
