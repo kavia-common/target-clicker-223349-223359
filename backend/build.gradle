@@ -55,7 +55,24 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
+/**
+ * Explicitly configure the main application class for Spring Boot packaging and running tasks.
+ * - springBoot { mainClass = ... } is used by bootJar (packaging).
+ * - tasks.named("bootRun") { mainClass.set(...) } ensures bootRun uses the same entrypoint.
+ *
+ * Note: Do not hardcode server.port here; prefer environment or application.properties overrides.
+ * Example to run on a different port without changing code:
+ *   ./gradlew bootRun -Dspring-boot.run.arguments=--server.port=3001
+ * Or with environment variable:
+ *   SERVER_PORT=3001 ./gradlew bootRun
+ */
 // Explicitly configure the main application class for bootJar task resolution
 springBoot {
     mainClass = 'com.example.backend.BackendApplication'
+}
+
+// Also ensure bootRun resolves to the same main class explicitly
+tasks.named('bootRun') {
+    // Gradle Kotlin/Java API: use property setter for clarity
+    mainClass.set('com.example.backend.BackendApplication')
 }
